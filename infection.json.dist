@@ -9,12 +9,5 @@
         "text": "build/infection/infection-log.txt",
         "summary": "build/infection/summary-log.txt",
         "debug": "build/infection/debug-log.txt"
-    },
-    "mutators": {
-        "@default": true,
-        "@function_signature": false,
-        "IdenticalEqual": true,
-        "MethodCallRemoval": true,
-        "Throw_": true
     }
 }
