@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MallardDuck\ImmutaFopen;
 
@@ -37,10 +37,10 @@ class ImmutaFopen
         return new self($existingSocket->getFilePath(), $bytePosition);
     }
 
-    private function __construct(string $filePath, ?int $bytePosition = null, $fileHandler = null)
+    private function __construct(string $filePath, ?int $bytePosition = null)
     {
         $this->filePath = $filePath;
-        $this->fileHandler = $fileHandler ?? new SplFileObject($filePath, 'r');
+        $this->fileHandler = new SplFileObject($filePath, 'r');
         $this->bytePosition = $bytePosition ?? 0;
         if (null !== $bytePosition) {
             $this->resetToCanonicalPosition();
@@ -54,7 +54,6 @@ class ImmutaFopen
 
     private function resetToCanonicalPosition(): void
     {
-        $this->fileHandler->rewind();
         $this->fileHandler->fseek($this->bytePosition);
     }
 
@@ -68,19 +67,19 @@ class ImmutaFopen
         return $this->fileHandler->getExtension();
     }
 
-    public function getBytePosition(): string
+    public function getBytePosition(): int
     {
         return $this->bytePosition;
     }
 
     public function getFileSize(): int
     {
-        return $this->fileHandler->getSize();
+        return intval($this->fileHandler->getSize());
     }
 
     public function getUnreadBytesSize(): int
     {
-        return $this->fileHandler->getSize() - $this->bytePosition;
+        return $this->getFileSize() - $this->bytePosition;
     }
 
     public function fgetc(): string
@@ -99,7 +98,7 @@ class ImmutaFopen
 
     public function __toString(): string
     {
-        if (0 === $this->fileHandler->getSize()) {
+        if (0 === $this->getFileSize()) {
             return "<EMPTYFILE>";
         }
 
