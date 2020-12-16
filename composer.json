@@ -20,14 +20,16 @@
   },
   "autoload": {
     "psr-4": {
-      "MallardDuck\\ImmutaFopen\\": "./src",
-      "MallardDuck\\ImmutaFopen\\Tests\\": "./tests"
+      "MallardDuck\\ImmutaFopen\\": "src/",
+      "MallardDuck\\ImmutaFopen\\Tests\\": "tests/"
     }
   },
   "scripts": {
-    "phpunit": "vendor/bin/phpunit",
+    "test": ["@phpunit", "@infect", "@psalm"],
+    "phpunit": "export XDEBUG_MODE=off && vendor/bin/phpunit",
     "unitcover": "export XDEBUG_MODE=coverage && vendor/bin/phpunit",
     "infect": "export XDEBUG_MODE=coverage && vendor/bin/infection --threads=4 --configuration=./infection.json.dist",
-    "psalm": "vendor/bin/psalm"
+    "psalm": "export XDEBUG_MODE=coverage && vendor/bin/psalm",
+    "semver": "php-semver-checker-git suggest --allow-detached -vvv --details --include-before=src --include-after=src"
   }
 }

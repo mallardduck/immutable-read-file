@@ -4,8 +4,9 @@ namespace MallardDuck\ImmutaFopen\Tests;
 
 use MallardDuck\ImmutaFopen\Exceptions\InvalidFilePathException;
 use MallardDuck\ImmutaFopen\ImmutaFopen;
+use PHPUnit\Framework\TestCase;
 
-class ExceptionsTest extends \PHPUnit\Framework\TestCase
+class ExceptionsTest extends TestCase
 {
     public function testConstructorThrowsException()
     {
@@ -36,6 +37,6 @@ class ExceptionsTest extends \PHPUnit\Framework\TestCase
     public function testEmptyFileToString()
     {
         $socket = ImmutaFopen::fromFilePath(__DIR__ . '/stubs/empty');
-        self::assertEquals("<EMPTYFILE>", (string) $socket);
+        self::assertEquals("", (string) $socket);
     }
 }

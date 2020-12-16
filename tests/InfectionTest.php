@@ -2,14 +2,14 @@
 
 namespace MallardDuck\ImmutaFopen\Tests;
 
-use MallardDuck\ImmutaFopen\Exceptions\InvalidFilePathException;
 use MallardDuck\ImmutaFopen\ImmutaFopen;
+use PHPUnit\Framework\TestCase;
 
 /**
  * In regular file sockets, the function calls often have "impure" side-effects.
  * These tests will all be ones that would fail on regular file socket functions.
  */
-class InfectionTest extends \PHPUnit\Framework\TestCase
+class InfectionTest extends TestCase
 {
     private string $filePath = __DIR__ . '/stubs/json.txt';
 

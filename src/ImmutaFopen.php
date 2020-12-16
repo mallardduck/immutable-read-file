@@ -12,9 +12,10 @@ class ImmutaFopen
      */
     private string $filePath;
     /**
-     * @var resource
+     * @var SplFileObject
+     * @psalm-readonly-allow-private-mutation
      */
-    private $fileHandler;
+    private ?SplFileObject $fileHandler;
     /**
      * @psalm-immutable
      */
@@ -22,19 +23,19 @@ class ImmutaFopen
 
     /**
      * @param string $filePath Must be an absolute path to a real file.
-     * @return static
+     * @return ImmutaFopen
      */
-    public static function fromFilePath(string $filePath): self
+    public static function fromFilePath(string $filePath): ImmutaFopen
     {
         if (!is_file($filePath)) {
             throw new InvalidFilePathException("The file path provided does not point to a valid file.");
         }
-        return new self($filePath);
+        return new ImmutaFopen($filePath);
     }
 
-    public static function recycleAtBytePosition(self $existingSocket, int $bytePosition)
+    public static function recycleAtBytePosition(self $existingSocket, int $bytePosition): ImmutaFopen
     {
-        return new self($existingSocket->getFilePath(), $bytePosition);
+        return new ImmutaFopen($existingSocket->getFilePath(), $bytePosition);
     }
 
     private function __construct(string $filePath, ?int $bytePosition = null)
@@ -96,13 +97,18 @@ class ImmutaFopen
         return $token;
     }
 
+    public function advanceBytePosition(int $advanceSteps = 1): ImmutaFopen
+    {
+        return ImmutaFopen::recycleAtBytePosition($this, $this->getBytePosition() + $advanceSteps);
+    }
+
     public function __toString(): string
     {
         if (0 === $this->getFileSize()) {
-            return "<EMPTYFILE>";
+            return "";
         }
 
-        $stringOut = $this->fileHandler->fread($this->fileHandler->getSize());
+        $stringOut = $this->fileHandler->fread($this->getFileSize());
         $this->resetToCanonicalPosition();
         return $stringOut;
     }
