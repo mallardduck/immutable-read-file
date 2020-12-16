@@ -12,6 +12,12 @@ class FeatureTest extends TestCase
 {
     private string $filePath = __DIR__ . '/stubs/json.txt';
 
+    public function testCanCastStreamToString()
+    {
+        $socket = ImmutaFopen::fromFilePath($this->filePath);
+        self::assertEquals('{"hello": "world"}', (string) $socket);
+    }
+
     public function testAdvancePositionFeature()
     {
         $step1 = ImmutaFopen::fromFilePath($this->filePath);

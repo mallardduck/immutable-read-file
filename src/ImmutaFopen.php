@@ -33,6 +33,14 @@ class ImmutaFopen
         return new ImmutaFopen($filePath);
     }
 
+    public static function fromFilePathWithPosition(string $filePath, int $bytePosition): ImmutaFopen
+    {
+        if (!is_file($filePath)) {
+            throw new InvalidFilePathException("The file path provided does not point to a valid file.");
+        }
+        return new ImmutaFopen($filePath, $bytePosition);
+    }
+
     public static function recycleAtBytePosition(self $existingSocket, int $bytePosition): ImmutaFopen
     {
         return new ImmutaFopen($existingSocket->getFilePath(), $bytePosition);

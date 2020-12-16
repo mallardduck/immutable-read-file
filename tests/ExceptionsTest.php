@@ -23,6 +23,15 @@ class ExceptionsTest extends TestCase
         ImmutaFopen::fromFilePath("test.txt");
     }
 
+    public function testEmptyFilePathWithPositionThrowsException()
+    {
+        self::expectException(InvalidFilePathException::class);
+        ImmutaFopen::fromFilePathWithPosition("", 4);
+
+        self::expectException(InvalidFilePathException::class);
+        ImmutaFopen::fromFilePathWithPosition("test.txt", 4);
+    }
+
     public function testCanLoadFromFile()
     {
         $filePath = __DIR__ . '/stubs/json.txt';

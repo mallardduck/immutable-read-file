@@ -13,18 +13,24 @@ class AccessTest extends TestCase
 {
     private string $filePath = __DIR__ . '/stubs/json.txt';
 
-    public function testCanCastStreamToString()
+    public function testCanOpenBasicFilePath()
     {
-        $socket = ImmutaFopen::fromFilePath($this->filePath);
-        self::assertEquals('{"hello": "world"}', (string) $socket);
+        $step1 = ImmutaFopen::fromFilePath($this->filePath);
+        self::assertEquals('{"hello": "world"}', (string) $step1);
+    }
+
+    public function testCanOpenFilePathWithPosition()
+    {
+        $step1 = ImmutaFopen::fromFilePathWithPosition($this->filePath, 2);
+        self::assertEquals('hello": "world"}', (string) $step1);
     }
 
     public function testCanCastPositionedStreamToString()
     {
-        $socket = ImmutaFopen::fromFilePath($this->filePath);
-        self::assertEquals('{"hello": "world"}', (string) $socket);
-        $newSocket = ImmutaFopen::recycleAtBytePosition($socket, 2);
-        self::assertEquals('hello": "world"}', (string) $newSocket);
+        $step1 = ImmutaFopen::recycleAtBytePosition(ImmutaFopen::fromFilePath($this->filePath), 2);
+        self::assertEquals('hello": "world"}', (string) $step1);
+        $step2 = ImmutaFopen::fromFilePathWithPosition($this->filePath, 2);
+        self::assertEquals('hello": "world"}', (string) $step2);
     }
 
     public function testCanFgetcStreamToken()
