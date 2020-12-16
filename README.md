@@ -1,20 +1,23 @@
 # ImmutaFopen - An immutable file wrapper for PHP
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/marllardduck/immutafopen.svg?style=flat-square)](https://packagist.org/packages/:vendor_name/:package_name)
-[![Total Downloads](https://img.shields.io/packagist/dt/marllardduck/immutafopen.svg?style=flat-square)](https://packagist.org/packages/:vendor_name/:package_name)
+[![Latest Stable Version](https://poser.pugx.org/mallardduck/immutafopen/v)](//packagist.org/packages/mallardduck/immutafopen)
+[![Total Downloads](https://poser.pugx.org/mallardduck/immutafopen/downloads)](//packagist.org/packages/mallardduck/immutafopen)
+[![Latest Unstable Version](https://poser.pugx.org/mallardduck/immutafopen/v/unstable)](//packagist.org/packages/mallardduck/immutafopen)
+[![License](https://poser.pugx.org/mallardduck/immutafopen/license)](//packagist.org/packages/mallardduck/immutafopen)
 
-
-If you've ever used fopen/SplFileObject and wanted the results to be idempotent* this is de way.
+If you've ever used `fopen`/`SplFileObject` and wanted the results to be idempotent<sup>1</sup> this is de way.
 
 With this library you get a read-only immutable wrapper for the basic SplFileObject - which is essentially the OOP fopen.   
 You probably would only rarely have a use case for this but if you do you'll know...and it may be hecking useful.
+
+<sup>1 = Only technically because the wrapper tracks a "canonical" position to always work from.</sup>
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require marllardduck/immutafopen
+composer require mallardduck/immutafopen
 ```
 
 ## Usage
