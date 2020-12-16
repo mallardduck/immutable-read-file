@@ -30,6 +30,6 @@
     "unitcover": "export XDEBUG_MODE=coverage && vendor/bin/phpunit",
     "infect": "export XDEBUG_MODE=coverage && vendor/bin/infection --threads=4 --configuration=./infection.json.dist",
     "psalm": "export XDEBUG_MODE=coverage && vendor/bin/psalm",
-    "semver": "php-semver-checker-git suggest --allow-detached -vvv --details --include-before=src --include-after=src"
+    "semver": "export XDEBUG_MODE=off && php-semver-checker-git suggest --allow-detached -vvv --details --include-before=src --include-after=src"
   }
 }
