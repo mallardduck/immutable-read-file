@@ -2,11 +2,11 @@
   "name": "mallardduck/immutafopen",
   "description": "An experiment in making an 'immutable' wrapper for PHP's file functions.",
   "minimum-stability": "stable",
-  "license": "proprietary",
+  "license": "MIT",
   "authors": [
     {
       "name": "danpock",
-      "email": "email@example.com"
+      "email": "self@danpock.me"
     }
   ],
   "require": {
