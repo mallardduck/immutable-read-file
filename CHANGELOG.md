@@ -2,6 +2,9 @@
 
 All notable changes to `ImmutaFopen` will be documented in this file.
 
+## 0.3.0 - 2020-12-15
+- Added `fgets` and `eof` + `feof` methods.
+
 ## 0.2.0 - 2020-12-15
 - Add new `ImmutaFopen::fromFilePathWithPosition` method.
 
