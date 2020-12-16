@@ -22,6 +22,11 @@ class ImmutaFopen
     private int $bytePosition;
 
     /**
+     * @psalm-readonly-allow-private-mutation
+     */
+    private bool $atEndOfFile = false;
+
+    /**
      * @param string $filePath Must be an absolute path to a real file.
      * @return ImmutaFopen
      */
@@ -55,6 +60,7 @@ class ImmutaFopen
         if (null !== $bytePosition) {
             $this->resetToCanonicalPosition();
         }
+        $this->endOfFileSanityCheck();
     }
 
     public function __destruct()
@@ -65,6 +71,15 @@ class ImmutaFopen
     private function resetToCanonicalPosition(): void
     {
         $this->fileHandler->fseek($this->bytePosition);
+    }
+
+    private function endOfFileSanityCheck(): void
+    {
+        $res = $this->fileHandler->fgetc();
+        if (false === $res) {
+            $this->atEndOfFile = true;
+        }
+        $this->resetToCanonicalPosition();
     }
 
     public function getFilePath(): string
@@ -115,12 +130,13 @@ class ImmutaFopen
 
     public function eof(): bool
     {
-        return ! $this->fileHandler->valid();
+        return $this->fileHandler->eof();
     }
 
     public function feof(): bool
     {
-        return $this->eof();
+        $this->endOfFileSanityCheck();
+        return $this->atEndOfFile;
     }
 
     public function advanceBytePosition(int $advanceSteps = 1): ImmutaFopen
