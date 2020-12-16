@@ -19,6 +19,34 @@ class AccessTest extends TestCase
         self::assertEquals('{"hello": "world"}', (string) $step1);
     }
 
+    public function testCanVerifyEndOfFile()
+    {
+        $step1 = ImmutaFopen::fromFilePath(__DIR__ . '/stubs/space');
+        self::assertEquals(' ', (string) $step1);
+        self::assertEquals(' ', $step1->fgetc());
+        $step2 = $step1->advanceBytePosition();
+        self::assertEquals('', (string) $step2);
+        self::assertEquals('', $step2->fgetc());
+        self::assertTrue($step2->eof());
+        self::assertTrue($step2->feof());
+    }
+
+    public function testCanMultiLineEndOfFile()
+    {
+        $step1 = ImmutaFopen::fromFilePath(__DIR__ . '/stubs/multi-line.txt');
+        $expected1 = <<<EOF
+Line 1\n
+EOF;
+        self::assertEquals($expected1, $step1->fgets());
+        self::assertEquals($expected1, $step1->fgets());
+
+        $step2 = ImmutaFopen::recycleAtBytePosition($step1, strlen($expected1));
+        self::assertEquals("Line 2", $step2->fgets());
+        self::assertEquals("Line 2", (string) $step2);
+        self::assertTrue($step2->eof());
+        self::assertTrue($step2->feof());
+    }
+
     public function testCanOpenFilePathWithPosition()
     {
         $step1 = ImmutaFopen::fromFilePathWithPosition($this->filePath, 2);

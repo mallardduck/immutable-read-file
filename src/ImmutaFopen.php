@@ -12,10 +12,10 @@ class ImmutaFopen
      */
     private string $filePath;
     /**
-     * @var SplFileObject
      * @psalm-readonly-allow-private-mutation
+     * @var SplFileObject
      */
-    private ?SplFileObject $fileHandler;
+    private $fileHandler;
     /**
      * @psalm-immutable
      */
@@ -50,6 +50,7 @@ class ImmutaFopen
     {
         $this->filePath = $filePath;
         $this->fileHandler = new SplFileObject($filePath, 'r');
+        $this->fileHandler->setFlags(SplFileObject::READ_AHEAD);
         $this->bytePosition = $bytePosition ?? 0;
         if (null !== $bytePosition) {
             $this->resetToCanonicalPosition();
@@ -93,7 +94,7 @@ class ImmutaFopen
 
     public function fgetc(): string
     {
-        $token = $this->fileHandler->fgetc();
+        $token = (string) $this->fileHandler->fgetc();
         $this->resetToCanonicalPosition();
         return $token;
     }
@@ -103,6 +104,23 @@ class ImmutaFopen
         $token = $this->fileHandler->fread($readLength);
         $this->resetToCanonicalPosition();
         return $token;
+    }
+
+    public function fgets(): string
+    {
+        $line = $this->fileHandler->fgets();
+        $this->resetToCanonicalPosition();
+        return $line;
+    }
+
+    public function eof(): bool
+    {
+        return ! $this->fileHandler->valid();
+    }
+
+    public function feof(): bool
+    {
+        return $this->eof();
     }
 
     public function advanceBytePosition(int $advanceSteps = 1): ImmutaFopen
