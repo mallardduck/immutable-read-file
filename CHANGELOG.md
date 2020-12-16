@@ -2,6 +2,9 @@
 
 All notable changes to `ImmutaFopen` will be documented in this file.
 
+## 0.2.0 - 2020-12-15
+- Add new `ImmutaFopen::fromFilePathWithPosition` method.
+
 ## 0.1.1 - 2020-12-15
 - Fix composer email and license info.
 - Update changelog stuff.
@@ -19,5 +22,4 @@ All notable changes to `ImmutaFopen` will be documented in this file.
 - Add `strict_types` and update return types.
 
 ## 0.0.1 - 2020-12-15
-
 - initial release
