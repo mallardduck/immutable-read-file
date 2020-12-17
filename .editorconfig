@@ -9,6 +9,10 @@ insert_final_newline = false
 max_line_length = 120
 tab_width = 4
 
+[*.json]
+tab_width = 2
+indent_size = 2
+
 [tests/stubs/*]
 indent_size = 1
 indent_style = tab

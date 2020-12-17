@@ -20,8 +20,13 @@
   },
   "autoload": {
     "psr-4": {
-      "MallardDuck\\ImmutaFopen\\": "src/",
-      "MallardDuck\\ImmutaFopen\\Tests\\": "tests/"
+      "MallardDuck\\ImmutaFopen\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MallardDuck\\Tests\\PHPCore\\": "tests/PHPCore",
+      "MallardDuck\\Tests\\ImmutaFopen\\": "tests/ImmutaFopen"
     }
   },
   "scripts": {

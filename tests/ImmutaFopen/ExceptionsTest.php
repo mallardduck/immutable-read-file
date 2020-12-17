@@ -1,6 +1,6 @@
 <?php
 
-namespace MallardDuck\ImmutaFopen\Tests;
+namespace MallardDuck\Tests\ImmutaFopen;
 
 use MallardDuck\ImmutaFopen\Exceptions\InvalidFilePathException;
 use MallardDuck\ImmutaFopen\ImmutaFopen;
@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 
 class ExceptionsTest extends TestCase
 {
+    private string $stubsDir = __DIR__ . '/../stubs/';
+
     public function testConstructorThrowsException()
     {
         self::expectException(\Error::class);
@@ -34,9 +36,9 @@ class ExceptionsTest extends TestCase
 
     public function testCanLoadFromFile()
     {
-        $filePath = __DIR__ . '/stubs/json.txt';
+        $filePath = $this->stubsDir . 'json.txt';
         $socket = ImmutaFopen::fromFilePath($filePath);
-        self::assertEquals(__DIR__ . '/stubs/json.txt', $socket->getFilePath());
+        self::assertEquals(__DIR__ . '/../stubs/json.txt', $socket->getFilePath());
         self::assertEquals('txt', $socket->getExtension());
         self::assertEquals(0, $socket->getBytePosition());
         self::assertEquals(18, $socket->getFileSize());
@@ -45,7 +47,7 @@ class ExceptionsTest extends TestCase
 
     public function testEmptyFileToString()
     {
-        $socket = ImmutaFopen::fromFilePath(__DIR__ . '/stubs/empty');
+        $socket = ImmutaFopen::fromFilePath($this->stubsDir . 'empty');
         self::assertEquals("", (string) $socket);
     }
 }

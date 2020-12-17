@@ -1,6 +1,6 @@
 <?php
 
-namespace MallardDuck\ImmutaFopen\Tests;
+namespace MallardDuck\Tests\ImmutaFopen;
 
 use MallardDuck\ImmutaFopen\ImmutaFopen;
 use PHPUnit\Framework\TestCase;
@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  */
 class FeatureTest extends TestCase
 {
-    private string $filePath = __DIR__ . '/stubs/json.txt';
+    private string $filePath = __DIR__ . '/../stubs/json.txt';
 
     public function testCanCastStreamToString()
     {

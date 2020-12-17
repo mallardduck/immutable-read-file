@@ -1,6 +1,6 @@
 <?php
 
-namespace MallardDuck\ImmutaFopen\Tests;
+namespace MallardDuck\Tests\ImmutaFopen;
 
 use MallardDuck\ImmutaFopen\ImmutaFopen;
 use PHPUnit\Framework\TestCase;
@@ -11,17 +11,17 @@ use PHPUnit\Framework\TestCase;
  */
 class AccessTest extends TestCase
 {
-    private string $filePath = __DIR__ . '/stubs/json.txt';
+    private string $stubsDir = __DIR__ . '/../stubs/';
 
     public function testCanOpenBasicFilePath()
     {
-        $step1 = ImmutaFopen::fromFilePath($this->filePath);
+        $step1 = ImmutaFopen::fromFilePath($this->stubsDir . 'json.txt');
         self::assertEquals('{"hello": "world"}', (string) $step1);
     }
 
     public function testCanVerifyEndOfFile()
     {
-        $step1 = ImmutaFopen::fromFilePath(__DIR__ . '/stubs/abcde.txt');
+        $step1 = ImmutaFopen::fromFilePath($this->stubsDir . 'abcde.txt');
         self::assertEquals('abcde', (string) $step1);
         self::assertEquals('a', $step1->fgetc());
         self::assertFalse($step1->eof());
@@ -37,7 +37,7 @@ class AccessTest extends TestCase
 
     public function testCanMultiLineEndOfFile()
     {
-        $step1 = ImmutaFopen::fromFilePath(__DIR__ . '/stubs/multi-line.txt');
+        $step1 = ImmutaFopen::fromFilePath($this->stubsDir . 'multi-line.txt');
         $expected1 = <<<EOF
 Line 1\n
 EOF;
@@ -54,21 +54,21 @@ EOF;
 
     public function testCanOpenFilePathWithPosition()
     {
-        $step1 = ImmutaFopen::fromFilePathWithPosition($this->filePath, 2);
+        $step1 = ImmutaFopen::fromFilePathWithPosition($this->stubsDir . 'json.txt', 2);
         self::assertEquals('hello": "world"}', (string) $step1);
     }
 
     public function testCanCastPositionedStreamToString()
     {
-        $step1 = ImmutaFopen::recycleAtBytePosition(ImmutaFopen::fromFilePath($this->filePath), 2);
+        $step1 = ImmutaFopen::recycleAtBytePosition(ImmutaFopen::fromFilePath($this->stubsDir . 'json.txt'), 2);
         self::assertEquals('hello": "world"}', (string) $step1);
-        $step2 = ImmutaFopen::fromFilePathWithPosition($this->filePath, 2);
+        $step2 = ImmutaFopen::fromFilePathWithPosition($this->stubsDir . 'json.txt', 2);
         self::assertEquals('hello": "world"}', (string) $step2);
     }
 
     public function testCanFgetcStreamToken()
     {
-        $socket = ImmutaFopen::fromFilePath($this->filePath);
+        $socket = ImmutaFopen::fromFilePath($this->stubsDir . 'json.txt');
         $res1 = $socket->fgetc();
         self::assertEquals('{', $res1);
         self::assertEquals($res1, $socket->fgetc());
@@ -76,7 +76,7 @@ EOF;
 
     public function testCanFreadStreamToken()
     {
-        $socket = ImmutaFopen::fromFilePath($this->filePath);
+        $socket = ImmutaFopen::fromFilePath($this->stubsDir . 'json.txt');
         $res1 = $socket->fread(4);
         self::assertEquals('{"he', $res1);
         self::assertEquals($res1, $socket->fread(4));
