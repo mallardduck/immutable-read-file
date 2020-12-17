@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  * In regular file sockets, the function calls often have "impure" side-effects.
  * These tests will all be ones that would fail on regular file socket functions.
  */
-class AccessTest extends TestCase
+class ImmutableFileAccessTest extends TestCase
 {
     private string $stubsDir = __DIR__ . '/../stubs/';
 

@@ -19,7 +19,7 @@ class ImmutableFile
     /**
      * @psalm-immutable
      */
-    private int $bytePosition;
+    private int $bytePosition = 0;
 
     /**
      * @psalm-readonly-allow-private-mutation
@@ -56,8 +56,8 @@ class ImmutableFile
         $this->filePath = $filePath;
         $this->fileHandler = new SplFileObject($filePath, 'r');
         $this->fileHandler->setFlags(SplFileObject::READ_AHEAD);
-        $this->bytePosition = $bytePosition ?? 0;
         if (null !== $bytePosition) {
+            $this->bytePosition = $bytePosition;
             $this->resetToCanonicalPosition();
         }
         $this->endOfFileSanityCheck();
@@ -135,12 +135,22 @@ class ImmutableFile
 
     public function feof(): bool
     {
-        $this->endOfFileSanityCheck();
         return $this->atEndOfFile;
     }
 
+    /**
+     * Advance the byte position of this ImmutableFile - either by one byte, or the number provided.
+     *
+     * Since it's an immutable file you actually get a new entity of the same type.
+     * This is effectively equivalent to fseek($fh, X, SEEK_CUR) - but based on this entity.
+     * The X would be based on the canonical position of the entity + $advanceSteps.
+     *
+     * @param int $advanceSteps
+     * @return ImmutableFile
+     */
     public function advanceBytePosition(int $advanceSteps = 1): ImmutableFile
     {
+        // TODO: consider if this should throw the current entity is EOF already.
         return ImmutableFile::recycleAtBytePosition($this, $this->getBytePosition() + $advanceSteps);
     }
 
