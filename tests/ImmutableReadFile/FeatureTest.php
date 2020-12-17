@@ -1,8 +1,8 @@
 <?php
 
-namespace MallardDuck\Tests\ImmutaFopen;
+namespace MallardDuck\Tests\ImmutableReadFile;
 
-use MallardDuck\ImmutaFopen\ImmutaFopen;
+use MallardDuck\ImmutableReadFile\ImmutableFile;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,13 +14,13 @@ class FeatureTest extends TestCase
 
     public function testCanCastStreamToString()
     {
-        $socket = ImmutaFopen::fromFilePath($this->filePath);
+        $socket = ImmutableFile::fromFilePath($this->filePath);
         self::assertEquals('{"hello": "world"}', (string) $socket);
     }
 
     public function testAdvancePositionFeature()
     {
-        $step1 = ImmutaFopen::fromFilePath($this->filePath);
+        $step1 = ImmutableFile::fromFilePath($this->filePath);
         self::assertEquals('{', $step1->fgetc());
         self::assertEquals('{"hello": "world"}', (string) $step1);
         self::assertEquals('{', $step1->fgetc());

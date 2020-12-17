@@ -1,5 +1,5 @@
 {
-  "name": "mallardduck/immutafopen",
+  "name": "mallardduck/immutable-read-file",
   "description": "An experiment in making an 'immutable' wrapper for PHP's file functions.",
   "minimum-stability": "stable",
   "license": "MIT",
@@ -20,13 +20,13 @@
   },
   "autoload": {
     "psr-4": {
-      "MallardDuck\\ImmutaFopen\\": "src/"
+      "MallardDuck\\ImmutableReadFile\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
       "MallardDuck\\Tests\\PHPCore\\": "tests/PHPCore",
-      "MallardDuck\\Tests\\ImmutaFopen\\": "tests/ImmutaFopen"
+      "MallardDuck\\Tests\\ImmutableReadFile\\": "tests/ImmutableReadFile"
     }
   },
   "scripts": {

@@ -2,7 +2,6 @@
 
 namespace MallardDuck\Tests\PHPCore;
 
-use MallardDuck\ImmutaFopen\ImmutaFopen;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace MallardDuck\Tests\ImmutaFopen;
+namespace MallardDuck\Tests\ImmutableReadFile;
 
-use MallardDuck\ImmutaFopen\ImmutaFopen;
+use MallardDuck\ImmutableReadFile\ImmutableFile;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,11 +19,11 @@ class InfectionTest extends TestCase
     public function testEnsureProperUnreadSize()
     {
         $filePath = $this->stubsDir . 'json.txt';
-        $socket = ImmutaFopen::fromFilePath($filePath);
+        $socket = ImmutableFile::fromFilePath($filePath);
         self::assertEquals(18, $socket->getUnreadBytesSize());
-        $step2 = ImmutaFopen::recycleAtBytePosition($socket, 7);
+        $step2 = ImmutableFile::recycleAtBytePosition($socket, 7);
         self::assertEquals(11, $step2->getUnreadBytesSize());
-        $step3 = ImmutaFopen::recycleAtBytePosition($step2, 5);
+        $step3 = ImmutableFile::recycleAtBytePosition($step2, 5);
         $expect = $step3->getFileSize() - $step3->getBytePosition();
         self::assertEquals(11, $step2->getUnreadBytesSize());
     }
@@ -34,7 +34,7 @@ class InfectionTest extends TestCase
     public function testEnsureStringOututIsIdempotent()
     {
         $filePath = $this->stubsDir . 'json.txt';
-        $socket = ImmutaFopen::fromFilePath($filePath);
+        $socket = ImmutableFile::fromFilePath($filePath);
         self::assertEquals(0, $socket->getBytePosition());
         self::assertEquals('{', $socket->fgetc());
         $s = (string) $socket;
@@ -48,8 +48,8 @@ class InfectionTest extends TestCase
     public function testEnsureCanonicalRewinds()
     {
         $filePath = $this->stubsDir . 'json.txt';
-        $socket = ImmutaFopen::fromFilePath($filePath);
-        $step2 = ImmutaFopen::recycleAtBytePosition($socket, 3);
+        $socket = ImmutableFile::fromFilePath($filePath);
+        $step2 = ImmutableFile::recycleAtBytePosition($socket, 3);
         $expected = "el";
         $r1 = $step2->fread(2);
         self::assertEquals($expected, $r1);

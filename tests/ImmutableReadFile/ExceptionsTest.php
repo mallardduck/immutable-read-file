@@ -1,9 +1,9 @@
 <?php
 
-namespace MallardDuck\Tests\ImmutaFopen;
+namespace MallardDuck\Tests\ImmutableReadFile;
 
-use MallardDuck\ImmutaFopen\Exceptions\InvalidFilePathException;
-use MallardDuck\ImmutaFopen\ImmutaFopen;
+use MallardDuck\ImmutableReadFile\Exceptions\InvalidFilePathException;
+use MallardDuck\ImmutableReadFile\ImmutableFile;
 use PHPUnit\Framework\TestCase;
 
 class ExceptionsTest extends TestCase
@@ -13,31 +13,31 @@ class ExceptionsTest extends TestCase
     public function testConstructorThrowsException()
     {
         self::expectException(\Error::class);
-        new ImmutaFopen();
+        new ImmutableFile();
     }
 
     public function testEmptyFilePathThrowsException()
     {
         self::expectException(InvalidFilePathException::class);
-        ImmutaFopen::fromFilePath("");
+        ImmutableFile::fromFilePath("");
 
         self::expectException(InvalidFilePathException::class);
-        ImmutaFopen::fromFilePath("test.txt");
+        ImmutableFile::fromFilePath("test.txt");
     }
 
     public function testEmptyFilePathWithPositionThrowsException()
     {
         self::expectException(InvalidFilePathException::class);
-        ImmutaFopen::fromFilePathWithPosition("", 4);
+        ImmutableFile::fromFilePathWithPosition("", 4);
 
         self::expectException(InvalidFilePathException::class);
-        ImmutaFopen::fromFilePathWithPosition("test.txt", 4);
+        ImmutableFile::fromFilePathWithPosition("test.txt", 4);
     }
 
     public function testCanLoadFromFile()
     {
         $filePath = $this->stubsDir . 'json.txt';
-        $socket = ImmutaFopen::fromFilePath($filePath);
+        $socket = ImmutableFile::fromFilePath($filePath);
         self::assertEquals(__DIR__ . '/../stubs/json.txt', $socket->getFilePath());
         self::assertEquals('txt', $socket->getExtension());
         self::assertEquals(0, $socket->getBytePosition());
@@ -47,7 +47,7 @@ class ExceptionsTest extends TestCase
 
     public function testEmptyFileToString()
     {
-        $socket = ImmutaFopen::fromFilePath($this->stubsDir . 'empty');
+        $socket = ImmutableFile::fromFilePath($this->stubsDir . 'empty');
         self::assertEquals("", (string) $socket);
     }
 }
