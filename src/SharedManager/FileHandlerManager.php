@@ -49,7 +49,7 @@ final class FileHandlerManager
      * The Singleton's constructor should always be private to prevent direct
      * construction calls with the `new` operator.
      */
-    protected function __construct()
+    private function __construct()
     {
     }
 

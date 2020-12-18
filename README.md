@@ -1,9 +1,9 @@
-# ImmutaFopen - An immutable file wrapper for PHP
+# ImmutableReadFile - An immutable read-only file wrapper for PHP
 
-[![Latest Stable Version](https://poser.pugx.org/mallardduck/immutafopen/v)](//packagist.org/packages/mallardduck/immutafopen)
-[![Total Downloads](https://poser.pugx.org/mallardduck/immutafopen/downloads)](//packagist.org/packages/mallardduck/immutafopen)
-[![Latest Unstable Version](https://poser.pugx.org/mallardduck/immutafopen/v/unstable)](//packagist.org/packages/mallardduck/immutafopen)
-[![License](https://poser.pugx.org/mallardduck/immutafopen/license)](//packagist.org/packages/mallardduck/immutafopen)
+[![Latest Stable Version](https://poser.pugx.org/mallardduck/immutable-read-file/v)](//packagist.org/packages/mallardduck/immutable-read-file)
+[![Total Downloads](https://poser.pugx.org/mallardduck/immutable-read-file/downloads)](//packagist.org/packages/mallardduck/immutable-read-file)
+[![Latest Unstable Version](https://poser.pugx.org/mallardduck/immutable-read-file/v/unstable)](//packagist.org/packages/mallardduck/immutable-read-file)
+[![License](https://poser.pugx.org/mallardduck/immutable-read-file/license)](//packagist.org/packages/mallardduck/immutable-read-file)
 
 If you've ever used `fopen`/`SplFileObject` and wanted the results to be idempotent<sup>1</sup> this is de way.
 
@@ -17,15 +17,17 @@ You probably would only rarely have a use case for this but if you do you'll kno
 You can install the package via composer:
 
 ```bash
-composer require mallardduck/immutafopen
+composer require mallardduck/immutable-read-file
 ```
 
 ## Usage
 
 ```php
+use MallardDuck\ImmutableReadFile\ImmutableFile;
+
 $fileName = __DIR__ . '/tests/stubs/json.txt'; // CONTENT: {"hello": "world"}
 
-$step1 = ImmutaFopen::fromFilePath($fileName);
+$step1 = ImmutableFile::fromFilePath($fileName);
 echo $step1->fgetc(); // { - The first character of your file
 echo $step1->fgetc(); // { - The first character of your file, again
 $step2 = $step1->advanceBytePosition(); // A new r/o immutable entity advanced a single byte by default.
