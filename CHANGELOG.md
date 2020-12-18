@@ -2,6 +2,11 @@
 
 All notable changes to `ImmutaFopen` will be documented in this file.
 
+## 0.5.0 - 2020-12-17
+- Add a FileHandlerManager to share file handles between common ImmutableFile entities.
+- Add tests to cover new class above.
+- Made it so multiple instances to the same file share a common WeakRef file socket.
+
 ## 0.4.0 - 2020-12-17
 - Refactored the names of the project and underlying classes.
 
