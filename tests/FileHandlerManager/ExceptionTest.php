@@ -9,6 +9,8 @@ use SplFileObject;
 class ExceptionTest extends TestCase
 {
 
+    private string $serializedExample = 'O:62:"MallardDuck\ImmutableReadFile\SharedManager\FileHandlerManager":0:{}';
+
     public function testCannotCloneInstance()
     {
         $fileHandlerManager = FileHandlerManager::instance();
@@ -17,13 +19,20 @@ class ExceptionTest extends TestCase
         $step1 = clone $fileHandlerManager;
     }
 
-    public function testCannotSerializeAndUnserialize()
+    public function testCannotSerialize()
     {
         $fileHandlerManager = FileHandlerManager::instance();
-        $fileHandlerManager->getFileObjectFromPath(__DIR__ . '/../stubs/abcde.txt');
+        $a = new \stdClass();
+        $fileHandlerManager->getFileObjectFromPath(__DIR__ . '/../stubs/abcde.txt', $a);
+        self::expectException(\Exception::class);
+        self::expectExceptionMessage("Cannot serialize a singleton.");
         $serializedJazz = serialize($fileHandlerManager);
+    }
+
+    public function testCannotUnserialize()
+    {
         self::expectException(\Exception::class);
         self::expectExceptionMessage("Cannot unserialize a singleton.");
-        unserialize($serializedJazz);
+        unserialize($this->serializedExample);
     }
 }

@@ -3,6 +3,7 @@
 namespace MallardDuck\ImmutableReadFile;
 
 use MallardDuck\ImmutableReadFile\Exceptions\InvalidFilePathException;
+use MallardDuck\ImmutableReadFile\SharedManager\FileHandlerManager;
 use SplFileObject;
 
 class ImmutableFile
@@ -54,8 +55,7 @@ class ImmutableFile
     private function __construct(string $filePath, ?int $bytePosition = null)
     {
         $this->filePath = $filePath;
-        $this->fileHandler = new SplFileObject($filePath, 'r');
-        $this->fileHandler->setFlags(SplFileObject::READ_AHEAD);
+        $this->fileHandler = FileHandlerManager::getSplFileObjectFromPath($this->filePath, $this);
         if (null !== $bytePosition) {
             $this->bytePosition = $bytePosition;
             $this->resetToCanonicalPosition();
@@ -65,6 +65,7 @@ class ImmutableFile
 
     public function __destruct()
     {
+        FileHandlerManager::freeSplFileObjectFromPath($this->filePath, $this);
         $this->fileHandler = null;
     }
 
@@ -109,6 +110,7 @@ class ImmutableFile
 
     public function fgetc(): string
     {
+        $this->resetToCanonicalPosition();
         $token = (string) $this->fileHandler->fgetc();
         $this->resetToCanonicalPosition();
         return $token;
@@ -116,6 +118,7 @@ class ImmutableFile
 
     public function fread(int $readLength): string
     {
+        $this->resetToCanonicalPosition();
         $token = $this->fileHandler->fread($readLength);
         $this->resetToCanonicalPosition();
         return $token;
@@ -123,6 +126,7 @@ class ImmutableFile
 
     public function fgets(): string
     {
+        $this->resetToCanonicalPosition();
         $line = $this->fileHandler->fgets();
         $this->resetToCanonicalPosition();
         return $line;
@@ -156,6 +160,7 @@ class ImmutableFile
 
     public function __toString(): string
     {
+        $this->resetToCanonicalPosition();
         if (0 === $this->getFileSize()) {
             return "";
         }
