@@ -1,6 +1,6 @@
 <?php
 
-namespace MallardDuck\Tests\ImmutableReadFile;
+namespace MallardDuck\ImmutableReadFile\Tests\ImmutableReadFile;
 
 use MallardDuck\ImmutableReadFile\ImmutableFile;
 use PHPUnit\Framework\TestCase;

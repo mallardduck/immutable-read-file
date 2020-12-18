@@ -25,12 +25,12 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "MallardDuck\\Tests\\PHPCore\\": "tests/PHPCore",
-      "MallardDuck\\Tests\\ImmutableReadFile\\": "tests/ImmutableReadFile"
+      "MallardDuck\\ImmutableReadFile\\Tests\\": "tests"
     }
   },
   "scripts": {
     "test": ["@phpunit", "@infect", "@psalm"],
+    "full": ["@unitcover", "@infect", "@psalm"],
     "phpunit": "export XDEBUG_MODE=off && vendor/bin/phpunit",
     "unitcover": "export XDEBUG_MODE=coverage && vendor/bin/phpunit",
     "infect": "export XDEBUG_MODE=coverage && vendor/bin/infection --threads=4 --configuration=./infection.json.dist",

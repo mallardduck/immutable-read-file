@@ -1,6 +1,6 @@
 <?php
 
-namespace MallardDuck\Tests\PHPCore;
+namespace MallardDuck\ImmutableReadFile\Tests\PHPCore;
 
 use PHPUnit\Framework\TestCase;
 
