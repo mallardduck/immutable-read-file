@@ -1,6 +1,9 @@
 # Changelog
 
-All notable changes to `ImmutaFopen` will be documented in this file.
+All notable changes to `ImmutableFile` will be documented in this file.
+
+## 0.5.1 - 2020-12-18
+- Remove traces of old package name.
 
 ## 0.5.0 - 2020-12-17
 - Add a FileHandlerManager to share file handles between common ImmutableFile entities.
