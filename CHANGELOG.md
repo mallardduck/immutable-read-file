@@ -2,6 +2,10 @@
 
 All notable changes to `ImmutableFile` will be documented in this file.
 
+## 0.5.2 - 2020-12-22
+- Bump composer deps.
+- Increase housekeeping value.
+
 ## 0.5.1 - 2020-12-18
 - Remove traces of old package name.
 
