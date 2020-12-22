@@ -11,7 +11,7 @@ use SplFileObject;
  */
 final class FileHandlerManager
 {
-    private const HOUSEKEEPING_EVERY = 2;
+    private const HOUSEKEEPING_EVERY = 3;
     private int $housekeepingCounter = 0;
 
     private static ?FileHandlerManager $instance;
@@ -41,6 +41,7 @@ final class FileHandlerManager
         if (!isset(self::$instance)) {
             self::$instance = new FileHandlerManager();
         }
+        self::$instance->housekeeping();
 
         return self::$instance;
     }
@@ -86,6 +87,9 @@ final class FileHandlerManager
         }
     }
 
+    /**
+     * @internal
+     */
     public function forceFlush(): void
     {
         $this->housekeeping(true);
@@ -107,6 +111,9 @@ final class FileHandlerManager
         }
     }
 
+    /**
+     * @param string $filePath
+     */
     public function closeHandlerFromPath(string $filePath): void
     {
         $normalizedPath = $this->normalizeFilePath($filePath);
