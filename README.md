@@ -7,7 +7,8 @@
 
 If you've ever used `fopen`/`SplFileObject` and wanted the results to be idempotent<sup>1</sup> this is de way.
 
-With this library you get a read-only immutable wrapper for the basic SplFileObject - which is essentially the OOP fopen.   
+With this library you get a read-only immutable wrapper for the basic SplFileObject - which is essentially the OOP fopen.  
+
 You probably would only rarely have a use case for this but if you do you'll know...and it may be hecking useful.
 
 <sup>1 = Only technically because the wrapper tracks a "canonical" position to always work from.</sup>
@@ -37,8 +38,11 @@ echo $step2->fgetc(); // " - The second character of your file, again
 
 ## Why! I don't get it?
 
-So, you were warned that this would only be useful rarely - but when it is useful it's hecking useful.  
-The main way to understand the times it's useful is to understand how it's different from `fopen` or `SplFileObject`.
+So, you were warned that this would only be useful rarely - but when it is useful it's hecking useful.
+You did read that right?  
+
+The main way to understand when this is useful is to understand how it's different from `fopen` or `SplFileObject`.
+Since this will be useful in cases when the default behavior of those is not desired.
 
 So see for yourself! Examples...
 
@@ -69,6 +73,20 @@ $step2->fseek(1);
 echo $step2->fgetc() . PHP_EOL; // " - The second character of your file
 echo $step2->fgetc() . PHP_EOL; // h - The third character of your file
 ```
+
+### Summary
+
+Comparing the ways that `fopen` and `SplFileObject` work we can see they are functionally identical to each other.
+However, this also highlights how they are different from `ImmutableReadFile`.
+
+When you use a method on either `fopen`/`SplFileObject` that returns content, then the current cursor position is incremented.
+That means when you run `fgetc` on these you'll always get either: the next character, or the EOF.
+
+
+However for `ImmutableReadFile`, these methods do not affect the cursor position. 
+This means that if you run `fgetc`, you'll always get the same exact character.
+Only until you explicitly advance the byte position will you get a novel character.
+When that happens you're actually getting a new instance of `ImmutableFile` too.
 
 ## Testing
 
