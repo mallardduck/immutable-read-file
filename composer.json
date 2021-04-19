@@ -1,40 +1,48 @@
 {
-  "name": "mallardduck/immutable-read-file",
-  "description": "An experiment in making an 'immutable' wrapper for PHP's file functions.",
-  "minimum-stability": "stable",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "danpock",
-      "email": "self@danpock.me"
+    "name": "mallardduck/immutable-read-file",
+    "description": "An experiment in making an 'immutable' wrapper for PHP's file functions.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "danpock",
+            "email": "self@danpock.me"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "infection/infection": "^0.20.2",
+        "phpunit/phpunit": "^9.5",
+        "symfony/var-dumper": "^5.2",
+        "vimeo/psalm": "^4.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "MallardDuck\\ImmutableReadFile\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MallardDuck\\ImmutableReadFile\\Tests\\": "tests"
+        }
+    },
+    "minimum-stability": "stable",
+    "scripts": {
+        "full": [
+            "@unitcover",
+            "@infect",
+            "@psalm"
+        ],
+        "infect": "export XDEBUG_MODE=coverage && vendor/bin/infection --threads=4 --configuration=./infection.json.dist",
+        "phpunit": "export XDEBUG_MODE=off && vendor/bin/phpunit",
+        "psalm": "export XDEBUG_MODE=coverage && vendor/bin/psalm",
+        "semver": "export XDEBUG_MODE=off && php-semver-checker-git suggest --allow-detached -vvv --details --include-before=src --include-after=src",
+        "test": [
+            "@phpunit",
+            "@infect",
+            "@psalm"
+        ],
+        "unitcover": "export XDEBUG_MODE=coverage && vendor/bin/phpunit"
     }
-  ],
-  "require": {
-    "php": "^7.4 || ^8.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "^4.7",
-    "symfony/var-dumper": "^5.2",
-    "infection/infection": "^0.20.2"
-  },
-  "autoload": {
-    "psr-4": {
-      "MallardDuck\\ImmutableReadFile\\": "src/"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "MallardDuck\\ImmutableReadFile\\Tests\\": "tests"
-    }
-  },
-  "scripts": {
-    "test": ["@phpunit", "@infect", "@psalm"],
-    "full": ["@unitcover", "@infect", "@psalm"],
-    "phpunit": "export XDEBUG_MODE=off && vendor/bin/phpunit",
-    "unitcover": "export XDEBUG_MODE=coverage && vendor/bin/phpunit",
-    "infect": "export XDEBUG_MODE=coverage && vendor/bin/infection --threads=4 --configuration=./infection.json.dist",
-    "psalm": "export XDEBUG_MODE=coverage && vendor/bin/psalm",
-    "semver": "export XDEBUG_MODE=off && php-semver-checker-git suggest --allow-detached -vvv --details --include-before=src --include-after=src"
-  }
 }

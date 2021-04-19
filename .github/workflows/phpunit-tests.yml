@@ -64,12 +64,6 @@ jobs:
           composer global require php-coveralls/php-coveralls
           php-coveralls --coverage_clover=build/logs/clover.xml -v
 
-      - name: Upload Scrutinizer coverage
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        uses: sudo-bot/action-scrutinizer@latest
-        with:
-          cli-args: "--format=php-clover build/logs/clover.xml"
-
       - name: Upload to Codecov
         if: ${{ matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v1
