@@ -52,7 +52,7 @@ class FileHandlerManagerTest extends TestCase
         $expectingBaseDir = realpath($this->stubsDir);
         self::assertEquals($expectingBaseDir, $jsonFile->getPath());
         self::assertEquals("json.txt", $jsonFile->getFilename());
-        self::assertEquals($expectingBaseDir . "/json.txt", $jsonFile->getRealPath());
+        self::assertEquals($expectingBaseDir . DIRECTORY_SEPARATOR . "json.txt", $jsonFile->getRealPath());
         self::assertEquals(18, $jsonFile->getSize());
         self::assertEquals('{"hello": "world"}', $jsonFile->fread($jsonFile->getSize()));
         // NOTE: Everything but this is the same since it's a shared SplFileObject

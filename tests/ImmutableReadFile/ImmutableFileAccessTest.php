@@ -38,8 +38,9 @@ class ImmutableFileAccessTest extends TestCase
     public function testCanMultiLineEndOfFile()
     {
         $step1 = ImmutableFile::fromFilePath($this->stubsDir . 'multi-line.txt');
+        $eol = PHP_EOL;
         $expected1 = <<<EOF
-Line 1\n
+Line 1{$eol}
 EOF;
         self::assertEquals($expected1, $step1->fgets());
         self::assertEquals($expected1, $step1->fgets());

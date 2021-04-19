@@ -48,8 +48,9 @@ class FOpenAccessTest extends TestCase
     public function testVerifyCoreFgetsFunctionality()
     {
         $step1 = fopen($this->stubsDir . 'multi-line.txt', 'r');
+        $eol = PHP_EOL;
         $expected1 = <<<EOF
-Line 1\n
+Line 1{$eol}
 EOF;
         // Verify first line matches what we'd expect...
         // And the second line doesn't match...
