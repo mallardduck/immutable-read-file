@@ -2,8 +2,10 @@
 
 [![Latest Stable Version](https://poser.pugx.org/mallardduck/immutable-read-file/v)](//packagist.org/packages/mallardduck/immutable-read-file)
 [![Total Downloads](https://poser.pugx.org/mallardduck/immutable-read-file/downloads)](//packagist.org/packages/mallardduck/immutable-read-file)
-[![Latest Unstable Version](https://poser.pugx.org/mallardduck/immutable-read-file/v/unstable)](//packagist.org/packages/mallardduck/immutable-read-file)
 [![License](https://poser.pugx.org/mallardduck/immutable-read-file/license)](//packagist.org/packages/mallardduck/immutable-read-file)
+[![codecov](https://codecov.io/gh/mallardduck/immutable-read-file/branch/master/graph/badge.svg?token=I2VDK8G5BM)](https://codecov.io/gh/mallardduck/immutable-read-file)
+[![Coverage Status](https://coveralls.io/repos/github/mallardduck/immutable-read-file/badge.svg?branch=master)](https://coveralls.io/github/mallardduck/immutable-read-file?branch=master)
+[![Latest Unstable Version](https://poser.pugx.org/mallardduck/immutable-read-file/v/unstable)](//packagist.org/packages/mallardduck/immutable-read-file)
 
 If you've ever used `fopen`/`SplFileObject` and wanted the results to be idempotent<sup>1</sup> this is de way.
 
