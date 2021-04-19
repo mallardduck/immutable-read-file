@@ -2,6 +2,9 @@
 
 All notable changes to `ImmutableFile` will be documented in this file.
 
+## 0.5.3 - 2021-04-19
+- Added PHP 8.x support
+
 ## 0.5.2 - 2020-12-22
 - Bump composer deps.
 - Increase housekeeping value.
