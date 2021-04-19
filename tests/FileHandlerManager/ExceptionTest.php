@@ -4,11 +4,9 @@ namespace MallardDuck\ImmutableReadFile\Tests\FileHandlerManager;
 
 use MallardDuck\ImmutableReadFile\SharedManager\FileHandlerManager;
 use PHPUnit\Framework\TestCase;
-use SplFileObject;
 
 class ExceptionTest extends TestCase
 {
-
     private string $serializedExample = 'O:62:"MallardDuck\ImmutableReadFile\SharedManager\FileHandlerManager":0:{}';
 
     public function testCannotCloneInstance()

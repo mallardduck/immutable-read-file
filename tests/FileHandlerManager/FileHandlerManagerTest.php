@@ -59,5 +59,4 @@ class FileHandlerManagerTest extends TestCase
         self::assertNotEquals('{"hello": "world"}', $jsonFile->fread($jsonFile->getSize()));
         self::assertEquals('', $jsonFile->fread($jsonFile->getSize()));
     }
-
 }

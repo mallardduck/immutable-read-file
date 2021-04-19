@@ -95,7 +95,7 @@ final class FileHandlerManager
         $this->housekeeping(true);
     }
 
-    private function housekeeping(bool $force = false) : void
+    private function housekeeping(bool $force = false): void
     {
         if ($force || (++$this->housekeepingCounter === self::HOUSEKEEPING_EVERY)) {
             foreach ($this->fileHandlerInstances as $id => $weakRef) {
