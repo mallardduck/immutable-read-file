@@ -2,6 +2,9 @@
 
 All notable changes to `ImmutableFile` will be documented in this file.
 
+## 1.0.0 - 2021-04-24
+- Updated general organization for stable 1.0.
+
 ## 0.5.3 - 2021-04-19
 - Added PHP 8.x support
 
