@@ -86,18 +86,14 @@ final class FileHandlerManager
     {
         $this->housekeeping();
         $normalizedPath = $this->normalizeFilePath($filePath);
+        $this->fileHandlerReferences[$normalizedPath][spl_object_id($requestingObject)] = $filePath;
         if (! isset($this->fileHandlerInstances[$normalizedPath])) {
             $tempVar = new SplFileObject($normalizedPath, 'r');
             $tempVar->setFlags(SplFileObject::READ_AHEAD);
-            $this->fileHandlerReferences[$normalizedPath][spl_object_id($requestingObject)] = $filePath;
             $this->fileHandlerInstances[$normalizedPath] = \WeakReference::create($tempVar);
-        } else {
-            $this->fileHandlerReferences[$normalizedPath][spl_object_id($requestingObject)] = $filePath;
         }
 
-        /** @var SplFileObject $weakRef */
         return $this->fileHandlerInstances[$normalizedPath]->get();
-    
     }
 
     public function freeFileObjectFromPath(string $filePath, object $requestingObject): void
