@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MallardDuck\ImmutableReadFile\SharedManager;
 
+use Exception;
 use SplFileObject;
 
 /**
@@ -43,15 +44,18 @@ final class FileHandlerManager
      */
     public function __clone()
     {
-        throw new \Exception('Cannot clone a singleton.');
+        throw new Exception('Cannot clone a singleton.');
     }
 
     /**
      * Singletons should not be serializable to strings.
+     *
+     * @throws Exception
+     * @return array<null>
      */
     public function __sleep(): array
     {
-        throw new \Exception('Cannot serialize a singleton.');
+        throw new Exception('Cannot serialize a singleton.');
     }
 
     /**
@@ -59,7 +63,7 @@ final class FileHandlerManager
      */
     public function __wakeup(): void
     {
-        throw new \Exception('Cannot unserialize a singleton.');
+        throw new Exception('Cannot unserialize a singleton.');
     }
 
     public static function getSplFileObjectFromPath(string $filePath, object $requestingObject): SplFileObject
