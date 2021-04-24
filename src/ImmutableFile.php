@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace MallardDuck\ImmutableReadFile;
 
-use MallardDuck\ImmutableReadFile\Exceptions\InvalidFilePathException;
-use MallardDuck\ImmutableReadFile\SharedManager\FileHandlerManager;
 use SplFileObject;
 
-class ImmutableFile
+final class ImmutableFile
 {
     /**
      * @psalm-immutable
@@ -31,7 +29,10 @@ class ImmutableFile
     private function __construct(string $filePath, ?int $bytePosition = null)
     {
         $this->filePath = $filePath;
-        $this->fileHandler = FileHandlerManager::getSplFileObjectFromPath($this->filePath, $this);
+        $this->fileHandler = FileHandlerManager::getSplFileObjectFromPath(
+            $this->filePath,
+            $this
+        );
         if ($bytePosition !== null) {
             $this->bytePosition = $bytePosition;
             $this->resetToCanonicalPosition();
@@ -63,21 +64,29 @@ class ImmutableFile
     public static function fromFilePath(string $filePath): ImmutableFile
     {
         if (! is_file($filePath)) {
-            throw new InvalidFilePathException('The file path provided does not point to a valid file.');
+            throw new InvalidFilePath(
+                'The file path provided does not point to a valid file.'
+            );
         }
         return new ImmutableFile($filePath);
     }
 
-    public static function fromFilePathWithPosition(string $filePath, int $bytePosition): ImmutableFile
-    {
+    public static function fromFilePathWithPosition(
+        string $filePath,
+        int $bytePosition
+    ): ImmutableFile {
         if (! is_file($filePath)) {
-            throw new InvalidFilePathException('The file path provided does not point to a valid file.');
+            throw new InvalidFilePath(
+                'The file path provided does not point to a valid file.'
+            );
         }
         return new ImmutableFile($filePath, $bytePosition);
     }
 
-    public static function recycleAtBytePosition(self $existingSocket, int $bytePosition): ImmutableFile
-    {
+    public static function recycleAtBytePosition(
+        self $existingSocket,
+        int $bytePosition
+    ): ImmutableFile {
         return new ImmutableFile($existingSocket->getFilePath(), $bytePosition);
     }
 
@@ -141,16 +150,18 @@ class ImmutableFile
     }
 
     /**
-     * Advance the byte position of this ImmutableFile - either by one byte, or the number provided.
+     * Advance the byte position of this ImmutableFile.
      *
-     * Since it's an immutable file you actually get a new entity of the same type.
-     * This is effectively equivalent to fseek($fh, X, SEEK_CUR) - but based on this entity.
-     * The X would be based on the canonical position of the entity + $advanceSteps.
+     * Since it's an immutable file you actually get a new entity of the
+     * same type. By default it increments by one, unless you pass an integer
+     * for bytes count. This method is effectively equivalent to fseek.
      */
     public function advanceBytePosition(int $advanceSteps = 1): ImmutableFile
     {
-        // TODO: consider if this should throw the current entity is EOF already.
-        return ImmutableFile::recycleAtBytePosition($this, $this->getBytePosition() + $advanceSteps);
+        return ImmutableFile::recycleAtBytePosition(
+            $this,
+            $this->getBytePosition() + $advanceSteps
+        );
     }
 
     private function resetToCanonicalPosition(): void

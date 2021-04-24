@@ -2,7 +2,7 @@
 
 namespace MallardDuck\ImmutableReadFile\Tests\FileHandlerManager;
 
-use MallardDuck\ImmutableReadFile\SharedManager\FileHandlerManager;
+use MallardDuck\ImmutableReadFile\FileHandlerManager;
 use PHPUnit\Framework\TestCase;
 use SplFileObject;
 

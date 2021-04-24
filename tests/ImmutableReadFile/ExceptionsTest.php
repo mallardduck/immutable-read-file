@@ -2,8 +2,8 @@
 
 namespace MallardDuck\ImmutableReadFile\Tests\ImmutableReadFile;
 
-use MallardDuck\ImmutableReadFile\Exceptions\InvalidFilePathException;
 use MallardDuck\ImmutableReadFile\ImmutableFile;
+use MallardDuck\ImmutableReadFile\InvalidFilePath;
 use PHPUnit\Framework\TestCase;
 
 class ExceptionsTest extends TestCase
@@ -12,25 +12,25 @@ class ExceptionsTest extends TestCase
 
     public function testConstructorThrowsException()
     {
-        self::expectException(\Error::class);
+        $this->expectException(\Error::class);
         new ImmutableFile();
     }
 
     public function testEmptyFilePathThrowsException()
     {
-        self::expectException(InvalidFilePathException::class);
+        $this->expectException(InvalidFilePath::class);
         ImmutableFile::fromFilePath("");
 
-        self::expectException(InvalidFilePathException::class);
+        $this->expectException(InvalidFilePath::class);
         ImmutableFile::fromFilePath("test.txt");
     }
 
     public function testEmptyFilePathWithPositionThrowsException()
     {
-        self::expectException(InvalidFilePathException::class);
+        $this->expectException(InvalidFilePath::class);
         ImmutableFile::fromFilePathWithPosition("", 4);
 
-        self::expectException(InvalidFilePathException::class);
+        $this->expectException(InvalidFilePath::class);
         ImmutableFile::fromFilePathWithPosition("test.txt", 4);
     }
 

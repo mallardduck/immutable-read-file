@@ -2,16 +2,13 @@
 
 declare(strict_types=1);
 
-namespace MallardDuck\ImmutableReadFile\SharedManager;
+namespace MallardDuck\ImmutableReadFile;
 
 use Exception;
 use SplFileObject;
+use WeakReference;
 
 /**
- * Class FileHandlerManager
- *
- * @package MallardDuck\ImmutableReadFile\SharedManager
- *
  * @internal
  */
 final class FileHandlerManager
@@ -27,7 +24,7 @@ final class FileHandlerManager
     private array $fileHandlerReferences = [];
 
     /**
-     * @var array<mixed, \WeakReference<\SplFileObject>|null>
+     * @var array<mixed, WeakReference<SplFileObject>|null>
      */
     private array $fileHandlerInstances = [];
 
@@ -51,6 +48,7 @@ final class FileHandlerManager
      * Singletons should not be serializable to strings.
      *
      * @throws Exception
+     *
      * @return array<null>
      */
     public function __sleep(): array
@@ -94,7 +92,7 @@ final class FileHandlerManager
         if (! isset($this->fileHandlerInstances[$normalizedPath])) {
             $tempVar = new SplFileObject($normalizedPath, 'r');
             $tempVar->setFlags(SplFileObject::READ_AHEAD);
-            $this->fileHandlerInstances[$normalizedPath] = \WeakReference::create($tempVar);
+            $this->fileHandlerInstances[$normalizedPath] = WeakReference::create($tempVar);
         }
 
         return $this->fileHandlerInstances[$normalizedPath]->get();
@@ -104,14 +102,10 @@ final class FileHandlerManager
     {
         $normalizedPath = $this->normalizeFilePath($filePath);
         if (isset($this->fileHandlerReferences[$normalizedPath])) {
-            unset($this->fileHandlerReferences[$normalizedPath][spl_object_id($requestingObject)]);
-            $remainingCount = count($this->fileHandlerReferences[$normalizedPath]);
-            if ($remainingCount === 0) {
-                if (isset($this->fileHandlerInstances[$normalizedPath])) {
-                    unset($this->fileHandlerInstances[$normalizedPath]);
-                }
-                unset($this->fileHandlerReferences[$normalizedPath]);
-            }
+            unset(
+                $this->fileHandlerReferences[$normalizedPath][spl_object_id($requestingObject)]
+            );
+            $this->cleanHandlerWhenReferencesEmpty($normalizedPath);
         }
     }
 
@@ -135,9 +129,24 @@ final class FileHandlerManager
         }
     }
 
+    private function cleanHandlerWhenReferencesEmpty(
+        string $normalizedPath
+    ): void {
+        if (count($this->fileHandlerReferences[$normalizedPath]) === 0) {
+            unset(
+                $this->fileHandlerReferences[$normalizedPath],
+                $this->fileHandlerInstances[$normalizedPath]
+            );
+        }
+    }
+
     private function housekeeping(bool $force = false): void
     {
-        if ($force || (++$this->housekeepingCounter === self::HOUSEKEEPING_EVERY)) {
+        ++$this->housekeepingCounter;
+        if (
+            $force
+            || ($this->housekeepingCounter === self::HOUSEKEEPING_EVERY)
+        ) {
             foreach ($this->fileHandlerInstances as $id => $weakRef) {
                 if ($weakRef === null || $weakRef->get() === null) {
                     unset(
