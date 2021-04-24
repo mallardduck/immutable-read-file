@@ -13,10 +13,10 @@
     },
     "require-dev": {
         "infection/infection": "^0.20.2",
+        "nunomaduro/phpinsights": "dev-master",
         "phpunit/phpunit": "^9.5",
         "symfony/var-dumper": "^5.2",
-        "vimeo/psalm": "^4.7",
-        "nunomaduro/phpinsights": "dev-master"
+        "vimeo/psalm": "^4.7"
     },
     "autoload": {
         "psr-4": {
