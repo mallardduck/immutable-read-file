@@ -15,7 +15,8 @@
         "infection/infection": "^0.20.2",
         "phpunit/phpunit": "^9.5",
         "symfony/var-dumper": "^5.2",
-        "vimeo/psalm": "^4.7"
+        "vimeo/psalm": "^4.7",
+        "nunomaduro/phpinsights": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -35,7 +36,7 @@
             "@psalm"
         ],
         "infect": "export XDEBUG_MODE=coverage && vendor/bin/infection --threads=4 --configuration=./infection.json.dist",
-        "phpunit": "export XDEBUG_MODE=off && vendor/bin/phpunit",
+        "phpunit": "export XDEBUG_MODE=coverage && vendor/bin/phpunit",
         "psalm": "export XDEBUG_MODE=coverage && vendor/bin/psalm",
         "semver": "export XDEBUG_MODE=off && php-semver-checker-git suggest --allow-detached -vvv --details --include-before=src --include-after=src",
         "test": [
